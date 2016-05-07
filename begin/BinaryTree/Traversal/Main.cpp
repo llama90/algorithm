@@ -14,7 +14,9 @@ int main() {
 	Traversal * ti = new Traversal();
 	ti->TravelInorder(iroot);
 */
-	Node * proot = new Node(1);
+
+
+/*	Node * proot = new Node(1);
 	proot->left = new Node(2);
 	proot->right = new Node(3);
 	proot->left->left = new Node(4);
@@ -24,6 +26,24 @@ int main() {
 
 	Traversal * pi = new Traversal();
 	pi->TravelPreorder(proot);
+*/
+
+	Node * proot = new Node(1);
+	proot->left = new Node(2);
+	proot->right = new Node(3);
+	proot->left->left = new Node(4);
+	proot->left->right = new Node(5);
+	proot->right->left = new Node(6);
+	proot->right->right= new Node(7);
+
+	Traversal * pi = new Traversal();
+	pi->TravelPostorder(proot);
+
+
+
+	
 
 	return 0;
 }
+
+	

@@ -62,7 +62,29 @@ public:
 
 	void TravelPostorder(Node * root)
 	{
-			
-	}
+		stack<Node *> st_one;
+		stack<Node *> st_two;
 
+		/* 1. push root into stack_one */
+		st_one.push(root);
+
+		/* 2. while (stack_one is not empty) */
+		while(st_one.size() != 0) {
+			/* 3. a) pop the node from stack_one
+				  b) push popped node into stack_two */
+			st_two.push(st_one.top());
+			st_one.pop();
+			
+			/* 4. push the left and right child nodes of popped node into stack_one */
+			if (st_two.top()->left != NULL) st_one.push(st_two.top()->left);
+			if (st_two.top()->right != NULL) st_one.push(st_two.top()->right);
+		}
+		
+		/* 5. pop out all the nodes from stack_two and print it */
+		int stackSize = st_two.size();
+		for(int i = 0;i < stackSize; i++) {
+			cout << "[" << st_two.top()->data << "]";
+			st_two.pop();
+		} cout << endl;
+	} 
 };
