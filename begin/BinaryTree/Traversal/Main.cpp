@@ -38,6 +38,7 @@ int main() {
 
 	Traversal * pi = new Traversal();
 	pi->TravelPostorder(proot);
+	pi->DeleteAllNode(proot);
 
 
 
