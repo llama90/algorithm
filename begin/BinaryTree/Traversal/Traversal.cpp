@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stack>
+#include <queue>
 #include "Node.cpp"
 
 using namespace std;
@@ -74,7 +75,7 @@ public:
 				  b) push popped node into stack_two */
 			st_two.push(st_one.top());
 			st_one.pop();
-			
+				
 			/* 4. push the left and right child nodes of popped node into stack_one */
 			if (st_two.top()->left != NULL) st_one.push(st_two.top()->left);
 			if (st_two.top()->right != NULL) st_one.push(st_two.top()->right);
@@ -116,5 +117,29 @@ public:
 			cout << "Deleting Node address" << node << endl;
 			delete(node);
 		} cout << endl;
+	}
+
+	bool IsPresent(Node * root, int element)
+	{
+		queue<Node *> q;
+		Node * curr; 
+		/* 1. add root to queue */
+		q.push(root);
+
+		while(q.size() != 0){
+			/* 2. check if current node has the element return true 
+						else add children nodes of current node to queue */
+			if(q.front()->data == element) {
+				return true;
+			} else { 
+				curr = q.front();
+				q.pop();
+				
+				if (curr->left != NULL) q.push(curr->left);
+				if (curr->right != NULL) q.push(curr->right);
+			}
+		}
+		/* 3. if queue is empty, means element is not in the tree */
+		return false;
 	}
 };

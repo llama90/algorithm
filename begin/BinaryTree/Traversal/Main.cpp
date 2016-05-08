@@ -37,12 +37,11 @@ int main() {
 	proot->right->right= new Node(7);
 
 	Traversal * pi = new Traversal();
-	pi->TravelPostorder(proot);
-	pi->DeleteAllNode(proot);
+	// pi->TravelPostorder(proot);
+	// pi->DeleteAllNode(proot);
 
-
-
-	
+	cout << "Does 4 exist in the tree: " << pi->IsPresent(proot, 4) << endl;
+	cout << "Does 9 exist in the tree: " << pi->IsPresent(proot, 9) << endl;
 
 	return 0;
 }
