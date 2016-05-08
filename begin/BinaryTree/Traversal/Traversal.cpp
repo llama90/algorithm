@@ -142,4 +142,21 @@ public:
 		/* 3. if queue is empty, means element is not in the tree */
 		return false;
 	}
+
+	int GetSize(Node * root) 
+	{
+		int size = 0;
+		queue<Node *> q;
+		Node * curr;
+		q.push(root);
+
+		while(q.size() != 0){
+			curr = q.front();
+			q.pop();
+			size++;
+			if (curr->left != NULL) q.push(curr->left);		
+			if (curr->right != NULL) q.push(curr->right);
+		}
+		return size;	
+	}
 };

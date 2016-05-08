@@ -40,9 +40,9 @@ int main() {
 	// pi->TravelPostorder(proot);
 	// pi->DeleteAllNode(proot);
 
-	cout << "Does 4 exist in the tree: " << pi->IsPresent(proot, 4) << endl;
-	cout << "Does 9 exist in the tree: " << pi->IsPresent(proot, 9) << endl;
-
+	// cout << "Does 4 exist in the tree: " << pi->IsPresent(proot, 4) << endl;
+	// cout << "Does 9 exist in the tree: " << pi->IsPresent(proot, 9) << endl;
+	cout << "Tree size: " << pi->GetSize(proot) << endl;
 	return 0;
 }
 
