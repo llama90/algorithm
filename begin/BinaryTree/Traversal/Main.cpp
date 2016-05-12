@@ -28,13 +28,13 @@ int main() {
 	pi->TravelPreorder(proot);
 */
 
-	Node * proot = new Node(1);
-	proot->left = new Node(2);
-	proot->right = new Node(3);
-	proot->left->left = new Node(4);
-	proot->left->right = new Node(5);
-	proot->right->left = new Node(6);
-	proot->right->right= new Node(7);
+	Node * proot = new Node(5);
+	proot->left = new Node(4);;
+	proot->right = new Node(2);
+	proot->left->left = new Node(1);
+	proot->left->right = new Node(6);
+	proot->right->left = new Node(7);
+	proot->right->right= new Node(3);
 
 	Traversal * pi = new Traversal();
 	// pi->TravelPostorder(proot);
@@ -43,6 +43,9 @@ int main() {
 	// cout << "Does 4 exist in the tree: " << pi->IsPresent(proot, 4) << endl;
 	// cout << "Does 9 exist in the tree: " << pi->IsPresent(proot, 9) << endl;
 	cout << "Tree size: " << pi->GetSize(proot) << endl;
+	pi->BFS(proot);
+	pi->FindNodeUsingBFS(proot, 1);
+	pi->FindNodeUsingBFS(proot, 8);
 	return 0;
 }
 

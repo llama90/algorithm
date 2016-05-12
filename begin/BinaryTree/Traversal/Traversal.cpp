@@ -159,4 +159,54 @@ public:
 		}
 		return size;	
 	}
+
+	void BFS(Node * root)
+	{
+		queue<Node *> q;
+		Node * curr;
+		
+		if(root != NULL)
+			q.push(root);
+		else 
+			return;
+
+		cout << "BFS Traversal order: ";
+		while(q.size() != 0){
+			curr = q.front();
+			q.pop();
+			
+			if(curr->left != NULL) q.push(curr->left);
+			if(curr->right != NULL) q.push(curr->right);
+			cout << "[" << curr->data << "]";
+		} cout<< endl;
+	}
+
+	void FindNodeUsingBFS(Node * root, int n){	
+		queue<Node *> q;
+		Node * curr;
+		int node = -1;
+
+		if(root != NULL)
+			q.push(root);
+		else 
+			return;
+
+		cout << "BFS Search node: ";
+		while(q.size() != 0){
+			curr = q.front();
+			q.pop();
+			
+			if(curr->left != NULL) q.push(curr->left);
+			if(curr->right != NULL) q.push(curr->right);
+			if(curr->data == n) {
+				cout << "[" << curr->data << "]" << endl;
+				node = n;
+				break;
+			}
+		} 
+
+		if(node == -1)
+			cout << "node not found"<< endl;
+
+	}
 };
