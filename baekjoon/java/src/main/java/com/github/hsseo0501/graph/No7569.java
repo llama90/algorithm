@@ -91,7 +91,7 @@ public class No7569 {
         }
     }
 
-    static void traverse(int x, int y, int z, int day) {
+    private static void traverse(int x, int y, int z, int day) {
         if (visited[x][y][z] != 1) {
             visited[x][y][z] = 1;
             if (map[x][y][z] == 0) {
@@ -104,7 +104,7 @@ public class No7569 {
         }
     }
 
-    static private class Point {
+    private static class Point {
         int x;
         int y;
         int z;
