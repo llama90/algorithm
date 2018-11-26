@@ -94,7 +94,7 @@ public class No7576 {
         }
     }
 
-    static class Point {
+    static private class Point {
         int x;
         int y;
 
