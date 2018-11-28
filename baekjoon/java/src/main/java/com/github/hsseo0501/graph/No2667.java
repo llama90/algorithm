@@ -12,7 +12,7 @@ public class No2667 {
     static int countHouse = 0;
     static int numHouse = 0;
     static int[] numHouses = new int[625];
-    static int numHousesCount = 0;
+    static int numHousesIndex = 0;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -34,17 +34,15 @@ public class No2667 {
         }
 
         for (int i = 0; i < 625; i++) {
-            numHouses[i] = -1;
+            numHouses[i] = Integer.MAX_VALUE;
         }
 
         bfs();
 
         System.out.println(numCities);
         Arrays.sort(numHouses);
-        for (int i = 0; i < numHouses.length; i++) {
-            if (numHouses[i] > 0) {
-                System.out.println(numHouses[i]);
-            }
+        for (int i = 0; i < numHousesIndex; i++) {
+            System.out.println(numHouses[i]);
         }
     }
 
@@ -77,7 +75,7 @@ public class No2667 {
                     traverse(x, y - 1);
                 }
             }
-            numHouses[numHousesCount++] = numHouse;
+            numHouses[numHousesIndex++] = numHouse;
             numHouse = 0;
         }
     }
