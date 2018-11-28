@@ -4,27 +4,28 @@ import java.util.*;
 
 public class No2667 {
     static int N;
-    static short[][] map;
-    static short[][] visit;
+    static int[][] map;
+    static int[][] visit;
     static Queue<Point> queue = new LinkedList<Point>();
     static int numCities = 0;
     static int totalHouse = 0;
     static int countHouse = 0;
     static int numHouse = 0;
-    static LinkedList<Integer> numHouses = new LinkedList<Integer>();
+    static int[] numHouses = new int[625];
+    static int numHousesCount = 0;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         N = scanner.nextInt();
 
-        map = new short[N][N];
-        visit = new short[N][N];
+        map = new int[N][N];
+        visit = new int[N][N];
         scanner.nextLine();
         for (int i = 0; i < N; i++) {
             String line = scanner.nextLine();
             for (int j = 0; j < N; j++) {
                 char v = line.charAt(j);
-                map[i][j] = (short)(v - 48);
+                map[i][j] = (short) (v - 48);
                 visit[i][j] = 0;
                 if (map[i][j] == 1) {
                     totalHouse++;
@@ -32,12 +33,18 @@ public class No2667 {
             }
         }
 
+        for (int i = 0; i < 625; i++) {
+            numHouses[i] = -1;
+        }
+
         bfs();
 
         System.out.println(numCities);
-        Collections.sort(numHouses);
-        for (int i = 0; i < numHouses.size(); i++) {
-            System.out.println(numHouses.get(i));
+        Arrays.sort(numHouses);
+        for (int i = 0; i < numHouses.length; i++) {
+            if (numHouses[i] > 0) {
+                System.out.println(numHouses[i]);
+            }
         }
     }
 
@@ -47,7 +54,6 @@ public class No2667 {
                 Point point = findNonVisitHose();
                 if (point != null) {
                     queue.add(point);
-                    numCities++;
                 }
             }
 
@@ -55,7 +61,6 @@ public class No2667 {
                 Point v = queue.poll();
                 int x = v.getX();
                 int y = v.getY();
-
                 if (x + 1 < N) {
                     traverse(x + 1, y);
                 }
@@ -72,7 +77,7 @@ public class No2667 {
                     traverse(x, y - 1);
                 }
             }
-            numHouses.add(numHouse);
+            numHouses[numHousesCount++] = numHouse;
             numHouse = 0;
         }
     }
@@ -81,6 +86,10 @@ public class No2667 {
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 if (map[i][j] == 1 && visit[i][j] == 0) {
+                    visit[i][j] = 1;
+                    numHouse++;
+                    countHouse++;
+                    numCities++;
                     return new Point(i, j);
                 }
             }
