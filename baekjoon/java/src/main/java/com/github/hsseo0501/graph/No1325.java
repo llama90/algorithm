@@ -1,18 +1,14 @@
 package com.github.hsseo0501.graph;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class No1325 {
     static int N;
     static int M;
-    static short[] visitCnt = new short[10001];
-    static boolean[][] visit = new boolean[10001][10001];
-    static LinkedList<Short>[] adjacentList = new LinkedList[10001];
-    static short numVisit = 0;
-    static short largestVisit = 0;
-
-    static Runtime r = Runtime.getRuntime();
+    static int[] visitCnt = new int[10001];
+    static boolean[] visit = new boolean[10001];
+    static ArrayList<Integer>[] adjacentList = new ArrayList[10001];
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -20,45 +16,46 @@ public class No1325 {
         M = scanner.nextInt();
 
         for (int i = 1; i <= N; i++) {
-            adjacentList[i] = new LinkedList<Short>();
+            adjacentList[i] = new ArrayList<Integer>();
         }
 
         for (int i = 0; i < M; i++) {
             int s = scanner.nextInt();
             int d = scanner.nextInt();
-            adjacentList[d].add((short)s);
+            adjacentList[s].add(d);
+        }
+
+        long start = System.currentTimeMillis();
+        int largestVisit = 0;
+        for (int i = 1; i <= N; i++) {
+            visit = new boolean[10001];
+            dfs(i);
         }
 
         for (int i = 1; i <= N; i++) {
-            initVisit();
-            dfs(i, i);
-            visitCnt[i] = numVisit;
-
-            if (largestVisit < numVisit) {
-                largestVisit = numVisit;
+            if (largestVisit < visitCnt[i]) {
+                largestVisit = visitCnt[i];
             }
         }
 
+        System.out.println(System.currentTimeMillis() - start);
+
+        StringBuilder sb = new StringBuilder();
         for (int i = 1; i <= N; i++) {
             if (visitCnt[i] == largestVisit) {
-                System.out.print(i + " ");
+                sb.append(i + " ");
             }
         }
-        System.out.println();
+        System.out.println(sb);
     }
 
-    public static void initVisit() {
-        numVisit = 0;
-    }
+    public static void dfs(int start) {
+        visit[start] = true;
 
-    public static void dfs(int start, int idx) {
-        visit[idx][start] = true;
-
-        for (int i = 0; i < adjacentList[start].size(); i++) {
-            int adj = adjacentList[start].get(i);
-            if (visit[idx][adj] == false) {
-                numVisit++;
-                dfs(adj, idx);
+        for (int adj : adjacentList[start]) {
+            if (!visit[adj]) {
+                visitCnt[adj]++;
+                dfs(adj);
             }
         }
     }
