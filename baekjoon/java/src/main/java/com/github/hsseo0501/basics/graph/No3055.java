@@ -1,4 +1,4 @@
-package com.github.hsseo0501.graph;
+package com.github.hsseo0501.basics.graph;
 
 import java.util.LinkedList;
 import java.util.Queue;
