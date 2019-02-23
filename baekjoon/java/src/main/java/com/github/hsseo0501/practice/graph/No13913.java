@@ -1,86 +1,79 @@
 package com.github.hsseo0501.practice.graph;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
 public class No13913 {
 
+    static final int MIN_VALUE = 0;
+    static final int MAX_VALUE = 100000;
+
     static int N;
     static int K;
-    static boolean[] visited = new boolean[100001];
+    static boolean[] visited = new boolean[MAX_VALUE + 1];
+    static int[] path = new int[MAX_VALUE + 1];
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         N = in.nextInt();
         K = in.nextInt();
 
+//        long start = System.currentTimeMillis();
         bfs();
+//        System.out.println(System.currentTimeMillis() - start);
     }
 
     static void bfs() {
-        Queue<Node> queue = new LinkedList<Node>();
-        queue.add(new Node(N, new LinkedList<Integer>()));
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.add(N);
 
         while (!queue.isEmpty()) {
-            Node node = queue.poll();
-            int value = node.getValue();
-            LinkedList<Integer> path = node.getPath();
+            Integer value = queue.poll();
 
             if (value == K) {
-                System.out.println(path.size());
-                for (int i = 0; i < path.size(); i++) {
-                    System.out.print(path.get(i) + " ");
+                ArrayList<Integer> paths = new ArrayList<Integer>();
+                int prevPath = value;
+                while (prevPath != N) {
+                    paths.add(prevPath);
+                    prevPath = path[prevPath];
                 }
-                System.out.println();
+                paths.add(N);
+
+//                long start = System.currentTimeMillis();
+                StringBuilder sb = new StringBuilder();
+                System.out.println(paths.size() - 1);
+                for (int i = paths.size() - 1; i >= 0; i--) {
+                    sb.append(paths.get(i) + " ");
+                }
+                System.out.println(sb);
+//                System.out.println("print time: " + (System.currentTimeMillis() - start));
                 break;
             }
 
-            if (value - 1 >= 0 && !visited[value - 1]) {
-                path.add(value - 1);
-                queue.add(new Node(value - 1, copyPath(path)));
-                path.removeLast();
+            int next = value - 1;
+            if (next >= MIN_VALUE && !visited[next]) {
+                visited[next] = true;
+                path[next] = value;
+                queue.add(next);
             }
 
-            if (value + 1 <= 100000 && !visited[value + 1]) {
-                path.add(value + 1);
-                queue.add(new Node(value + 1, copyPath(path)));
-                path.removeLast();
+            next = value + 1;
+            if (next <= MAX_VALUE && !visited[next]) {
+                visited[next] = true;
+                path[next] = value;
+                queue.add(next);
             }
 
-            if (value * 2 <= 100000 && !visited[value * 2]) {
-                path.add(value * 2);
-                queue.add(new Node(value * 2, copyPath(path)));
-                path.removeLast();
+            next = value * 2;
+            if (next <= MAX_VALUE && !visited[next]) {
+                visited[next] = true;
+                path[next] = value;
+                queue.add(next);
             }
         }
 
         queue.clear();
-    }
-
-    static LinkedList<Integer> copyPath(LinkedList<Integer> path) {
-        LinkedList<Integer> temp = new LinkedList<Integer>();
-        for (int i = 0; i < path.size(); i++) {
-            temp.add(path.get(i));
-        }
-        return temp;
-    }
-
-    static class Node {
-        int value;
-        LinkedList<Integer> path;
-
-        public Node(int value, LinkedList<Integer> path) {
-            this.value = value;
-            this.path = path;
-        }
-
-        public int getValue() {
-            return value;
-        }
-
-        public LinkedList<Integer> getPath() {
-            return path;
-        }
     }
 }
