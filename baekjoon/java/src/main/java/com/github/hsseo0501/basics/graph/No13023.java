@@ -1,9 +1,6 @@
 package com.github.hsseo0501.basics.graph;
 
-import sun.security.provider.certpath.AdjacencyList;
-
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 public class No13023 {
@@ -11,7 +8,7 @@ public class No13023 {
     static int N;
     static int M;
 
-    static LinkedList<Integer>[] adjacentList;
+    static ArrayList<Integer>[] adjacentList;
     static boolean[] visited;
 
     static int maxCnt = 0;
@@ -21,10 +18,10 @@ public class No13023 {
         N = in.nextInt();
         M = in.nextInt();
 
-        adjacentList = new LinkedList[N];
+        adjacentList = new ArrayList[N];
         visited = new boolean[N];
         for (int i = 0; i < N; i++) {
-            adjacentList[i] = new LinkedList<Integer>();
+            adjacentList[i] = new ArrayList<Integer>();
         }
 
         for (int i = 0; i < M; i++) {
@@ -37,6 +34,9 @@ public class No13023 {
 
         for (int i = 0; i < N; i++) {
             dfs(0, i);
+            if(maxCnt == 4) {
+                break;
+            }
         }
 
         if (maxCnt == 4) {
