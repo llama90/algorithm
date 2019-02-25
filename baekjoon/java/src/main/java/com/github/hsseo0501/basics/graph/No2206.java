@@ -32,7 +32,7 @@ public class No2206 {
     static int[][] map;
 
     static int[][] countMap;
-    static boolean tryBreakBlock = false;
+    static boolean finished = false;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -53,25 +53,26 @@ public class No2206 {
 
         bfs();
 
-        if (countMap[N - 1][M - 1] == -1) {
-            System.out.println(-1);
-        } else {
+        if (finished == true) {
             System.out.println(countMap[N - 1][M - 1]);
+        } else if (countMap[N - 1][M - 1] == -1) {
+            System.out.println(-1);
         }
-
     }
 
     static void bfs() {
         Queue<Point> queue = new LinkedList<Point>();
-        queue.add(new Point(0, 0));
+        queue.add(new Point(0, 0, 0));
         countMap[0][0] = 1;
 
         while (!queue.isEmpty()) {
             Point point = queue.poll();
             int x = point.getX();
             int y = point.getY();
+            int brokenBlockCount = point.getBrokenBlockCount();
 
-            if (x == N - 1 && y == M - 1) {
+            if (x == N - 1 && y == M - 1 && brokenBlockCount <= 1) {
+                finished = true;
                 break;
             }
 
@@ -83,15 +84,15 @@ public class No2206 {
                     continue;
                 }
 
-                if (countMap[dX][dY] == -1) {
-                    if (!tryBreakBlock && map[dX][dY] == 1 && isCanTraverseAfterBrokenBlock(dX, dY)) {
-                        tryBreakBlock = true;
-                        countMap[dX][dY] = countMap[x][y] + 1;
-                        queue.add(new Point(dX, dY));
-                    } else if (map[dX][dY] == 0) {
-                        countMap[dX][dY] = countMap[x][y] + 1;
-                        queue.add(new Point(dX, dY));
+                if (map[dX][dY] == 1 && isCanTraverseAfterBrokenBlock(dX, dY)) {
+                    int innerBrokenBlockCount = brokenBlockCount + 1;
+                    countMap[dX][dY] = countMap[x][y] + 1;
+                    if (innerBrokenBlockCount <= 1) {
+                        queue.add(new Point(dX, dY, innerBrokenBlockCount));
                     }
+                } else if (map[dX][dY] == 0) {
+                    countMap[dX][dY] = countMap[x][y] + 1;
+                    queue.add(new Point(dX, dY, brokenBlockCount));
                 }
             }
         }
@@ -115,10 +116,12 @@ public class No2206 {
 
     static class Point {
         int x, y;
+        int brokenBlockCount;
 
-        public Point(int x, int y) {
+        public Point(int x, int y, int brokenBlockCount) {
             this.x = x;
             this.y = y;
+            this.brokenBlockCount = brokenBlockCount;
         }
 
         public int getX() {
@@ -127,6 +130,10 @@ public class No2206 {
 
         public int getY() {
             return y;
+        }
+
+        public int getBrokenBlockCount() {
+            return brokenBlockCount;
         }
     }
 }
