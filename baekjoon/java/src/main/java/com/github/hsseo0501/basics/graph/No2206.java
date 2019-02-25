@@ -1,27 +1,11 @@
 package com.github.hsseo0501.basics.graph;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
 public class No2206 {
 
-    /*
-    counter example
-    3 3
-    000
-    000
-    000
-    ans: 5
-
-    4 4
-    0101
-    0101
-    0001
-    1110
-    ans: 7
-     */
 
     static int ASCII_OFFSET = 48;
 
@@ -31,8 +15,8 @@ public class No2206 {
     static int N, M;
     static int[][] map;
 
-    static int[][] countMap;
-    static boolean tryBreakBlock = false;
+    static boolean[][][] visitedMap;
+    static int count;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
@@ -41,84 +25,80 @@ public class No2206 {
         in.nextLine();
 
         map = new int[N][M];
-        countMap = new int[N][M];
+        visitedMap = new boolean[N][M][2];
         for (int i = 0; i < N; i++) {
             String line = in.nextLine();
-
-            Arrays.fill(countMap[i], -1);
             for (int j = 0; j < M; j++) {
                 map[i][j] = line.charAt(j) - ASCII_OFFSET;
             }
         }
 
-        bfs();
-
-        if (countMap[N - 1][M - 1] == -1) {
-            System.out.println(-1);
-        } else {
-            System.out.println(countMap[N - 1][M - 1]);
-        }
-
+        System.out.println(bfs());
     }
 
-    static void bfs() {
+    static int bfs() {
+        count = 0;
         Queue<Point> queue = new LinkedList<Point>();
-        queue.add(new Point(0, 0));
-        countMap[0][0] = 1;
+        queue.add(new Point(0, 0, false));
+        visitedMap[0][0][0] = true; // 3차원 인덱스가 0인 경우 블록이 깨지지 않은 경우의 맵
 
         while (!queue.isEmpty()) {
-            Point point = queue.poll();
-            int x = point.getX();
-            int y = point.getY();
+            int size = queue.size();
+            count++;
+            for (int q = 0; q < size; q++) {
 
-            if (x == N - 1 && y == M - 1) {
-                break;
-            }
+                Point point = queue.poll();
+                int x = point.getX();
+                int y = point.getY();
+                boolean blockBroken = point.getBlockBroken();
 
-            for (int i = 0; i < 4; i++) {
-                int dX = x + dx[i];
-                int dY = y + dy[i];
-
-                if (dX < 0 || dY < 0 || dX >= N || dY >= M) {
-                    continue;
+                if (x == N - 1 && y == M - 1) {
+                    return count;
                 }
 
-                if (countMap[dX][dY] == -1) {
-                    if (!tryBreakBlock && map[dX][dY] == 1 && isCanTraverseAfterBrokenBlock(dX, dY)) {
-                        tryBreakBlock = true;
-                        countMap[dX][dY] = countMap[x][y] + 1;
-                        queue.add(new Point(dX, dY));
-                    } else if (map[dX][dY] == 0) {
-                        countMap[dX][dY] = countMap[x][y] + 1;
-                        queue.add(new Point(dX, dY));
+                for (int i = 0; i < 4; i++) {
+                    int dX = x + dx[i];
+                    int dY = y + dy[i];
+
+                    if (dX < 0 || dY < 0 || dX >= N || dY >= M) {
+                        continue;
+                    }
+
+                    // 블록이 깨진 상태
+                    if (blockBroken) {
+                        // 벽이 아닌 곳만 지나갈 수 있음
+                        if (map[dX][dY] == 0
+                                && !visitedMap[dX][dY][0] && !visitedMap[dX][dY][1]) {
+                            visitedMap[dX][dY][1] = true;
+                            queue.add(new Point(dX, dY, true));
+                        }
+                    } else {
+                        // 블록이 깨지지 않은 상태
+                        // 벽이 아닌 곳을 지나가는 경우
+                        if (map[dX][dY] == 0 && !visitedMap[dX][dY][0]) {
+                            visitedMap[dX][dY][0] = true;
+                            visitedMap[dX][dY][1] = true;
+                            queue.add(new Point(dX, dY, false));
+                            // 벽인 곳을 지나가는 경우
+                        } else if (!visitedMap[dX][dY][0] && !visitedMap[dX][dY][1]) {
+                            visitedMap[dX][dY][0] = true;
+                            queue.add(new Point(dX, dY, true));
+                        }
                     }
                 }
             }
         }
-    }
-
-    static boolean isCanTraverseAfterBrokenBlock(int x, int y) {
-        for (int i = 0; i < 4; i++) {
-            int dX = x + dx[i];
-            int dY = y + dy[i];
-
-            if (dX < 0 || dY < 0 || dX >= N || dY >= M) {
-                continue;
-            }
-
-            if (map[dX][dY] == 0) {
-                return true;
-            }
-        }
-        return false;
+        return -1;
     }
 
     static class Point {
         int x, y;
+        boolean blockBroken;
 
-        public Point(int x, int y) {
+        public Point(int x, int y, boolean blockBroken) {
             this.x = x;
             this.y = y;
+            this.blockBroken = blockBroken;
         }
 
         public int getX() {
@@ -127,6 +107,10 @@ public class No2206 {
 
         public int getY() {
             return y;
+        }
+
+        public boolean getBlockBroken() {
+            return blockBroken;
         }
     }
 }
