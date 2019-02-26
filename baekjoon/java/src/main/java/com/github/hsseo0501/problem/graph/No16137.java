@@ -7,48 +7,8 @@ import java.util.Scanner;
 
 public class No16137 {
 
-    /*
-counter example
-3 3
-1 1 1
-1 1 1
-1 1 1
-ans: 4
-
-5 5
-1 2 1 2 1
-1 2 1 2 1
-1 2 1 2 1
-1 2 1 2 1
-1 2 1 2 1
-ans: 8
-
-4 3
-1 1 100 100
-1 1 100 100
-0 0 1 1
-1 0 1 1
-ans: 103
-(* 데이터 입력 범위를 벗어남)
-
-4 3
-1 1 20 20
-1 1 20 20
-0 0 1 1
-1 0 1 1
-ans: 23
-
-5 10
-1 1 2 3 1
-1 1 0 0 1
-13 0 0 0 1
-1 1 1 1 1
-1 1 1 1 1
-ans: 15
-     */
-
-    static int[] dx = {0, 1};
-    static int[] dy = {1, 0};
+    static int[] dx = {0, 0, -1, 1};
+    static int[] dy = {-1, 1, 0, 0};
 
     static int N;
     static int M;
@@ -91,15 +51,20 @@ ans: 15
                     System.out.println(visitCnt[N - 1][N - 1]);
                 }
 
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < 4; i++) {
                     int dX = x + dx[i];
                     int dY = y + dy[i];
-                    if (dX < N && dY < N) {
-                        traverse(dX, dY, visitCnt[x][y]);
+
+                    if (dX >= N || dY >= N || dX < 0 || dY < 0) {
+                        continue;
+                    }
+
+                    if (visitCnt[dX][dY] == Integer.MAX_VALUE) {
+                        traverse(dX, dY, x, y, visitCnt[x][y]);
                     }
                 }
             }
-
+            printVisitCnt();
         }
 
         queue.clear();
@@ -119,46 +84,47 @@ ans: 15
         System.out.println();
     }
 
-    private static void traverse(int x, int y, int prevCnt) {
-        if (map[x][y] == 1) {
-            if (visitCnt[x][y] == Integer.MAX_VALUE) {
-                visitCnt[x][y] = map[x][y] + prevCnt;
-                queue.add(new Point(x, y));
-            } else if (visitCnt[x][y] > map[x][y] + prevCnt) {
-                visitCnt[x][y] = map[x][y] + prevCnt;
-                queue.add(new Point(x, y));
-            }
-        } else if (map[x][y] == 0) {
-            if (!isCross(x, y)) {
+    private static void traverse(int x, int y, int prevX, int prevY, int prevCnt) {
+        int point = map[x][y];
+        if (point == 1) {
+            visitCnt[x][y] = point + prevCnt;
+            queue.add(new Point(x, y));
+        } else if (point == 0) {
+            if (getNumBlockedPoint(x, y) < 2) {
                 if (prevCnt <= M) {
                     visitCnt[x][y] = M;
                 } else {
-                    visitCnt[x][y] = prevCnt + 1;
+                    visitCnt[x][y] = M + 1;
                 }
                 queue.add(new Point(x, y));
             }
-        } else if (map[x][y] > 1) {
-            if (prevCnt <= map[x][y]) {
-                visitCnt[x][y] = map[x][y];
-            } else {
+        } else if (point > 1 && map[prevX][prevY] <= 1) {
+            if (prevCnt % point == 0) {
                 visitCnt[x][y] = prevCnt + 1;
+                queue.add(new Point(x, y));
+            } else {
+                visitCnt[x][y] = point;
+                queue.add(new Point(x, y));
             }
-            queue.add(new Point(x, y));
         }
     }
 
-    private static boolean isCross(int x, int y) {
-        if (x - 1 >= 0 && y - 1 >= 0) {
-            if (map[x - 1][y] == 0 && map[x][y - 1] == 0) {
-                return true;
+    private static int getNumBlockedPoint(int x, int y) {
+        int blockCount = 0;
+        for (int i = 0; i < 4; i++) {
+            int dX = x + dx[i];
+            int dY = y + dy[i];
+
+            if (dX >= N || dY >= N || dX < 0 || dY < 0) {
+                continue;
+            }
+
+            if (map[dX][dY] == 0) {
+                blockCount++;
             }
         }
-        if (x + 1 < N && y + 1 < N) {
-            if (map[x + 1][y] == 0 && map[x][y + 1] == 0) {
-                return true;
-            }
-        }
-        return false;
+
+        return blockCount;
     }
 
     private static class Point {
