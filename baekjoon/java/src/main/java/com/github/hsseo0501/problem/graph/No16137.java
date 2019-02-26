@@ -7,11 +7,48 @@ import java.util.Scanner;
 
 public class No16137 {
 
+    /*
+counter example
+3 3
+1 1 1
+1 1 1
+1 1 1
+ans: 4
+
+5 5
+1 2 1 2 1
+1 2 1 2 1
+1 2 1 2 1
+1 2 1 2 1
+1 2 1 2 1
+ans: 8
+
+4 3
+1 1 100 100
+1 1 100 100
+0 0 1 1
+1 0 1 1
+ans: 103
+(* 데이터 입력 범위를 벗어남)
+
+4 3
+1 1 20 20
+1 1 20 20
+0 0 1 1
+1 0 1 1
+ans: 23
+
+5 10
+1 1 2 3 1
+1 1 0 0 1
+13 0 0 0 1
+1 1 1 1 1
+1 1 1 1 1
+ans: 15
+     */
+
     static int[] dx = {0, 1};
     static int[] dy = {1, 0};
-
-    static int testCase;
-    static int t;
 
     static int N;
     static int M;
@@ -22,26 +59,21 @@ public class No16137 {
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        testCase = in.nextInt();
 
-        for (t = 1; t <= testCase; t++) {
-            N = in.nextInt();
-            M = in.nextInt();
-            map = new int[N][N];
+        N = in.nextInt();
+        M = in.nextInt();
+        map = new int[N][N];
 
-            visitCnt = new int[N][N];
+        visitCnt = new int[N][N];
 
-            for (int i = 0; i < N; i++) {
-                Arrays.fill(visitCnt[i], Integer.MAX_VALUE);
-                for (int j = 0; j < N; j++) {
-                    map[i][j] = in.nextInt();
-                }
+        for (int i = 0; i < N; i++) {
+            Arrays.fill(visitCnt[i], Integer.MAX_VALUE);
+            for (int j = 0; j < N; j++) {
+                map[i][j] = in.nextInt();
             }
-
-            bfs();
-
-            System.out.println("#" + t + " " + visitCnt[N - 1][N - 1]);
         }
+
+        bfs();
     }
 
     private static void bfs() {
@@ -49,16 +81,22 @@ public class No16137 {
         queue.add(new Point(0, 0));
 
         while (!queue.isEmpty()) {
-            Point point = queue.poll();
-            int x = point.getX();
-            int y = point.getY();
-//            printVisitCnt();
+            int size = queue.size();
+            for (int q = 0; q < size; q++) {
+                Point point = queue.poll();
+                int x = point.getX();
+                int y = point.getY();
 
-            for (int i = 0; i < 2; i++) {
-                int dX = x + dx[i];
-                int dY = y + dy[i];
-                if (dX < N && dY < N) {
-                    traverse(dX, dY, visitCnt[x][y]);
+                if (x == N - 1 && y == N - 1) {
+                    System.out.println(visitCnt[N - 1][N - 1]);
+                }
+
+                for (int i = 0; i < 2; i++) {
+                    int dX = x + dx[i];
+                    int dY = y + dy[i];
+                    if (dX < N && dY < N) {
+                        traverse(dX, dY, visitCnt[x][y]);
+                    }
                 }
             }
 
