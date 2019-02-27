@@ -1,4 +1,4 @@
-package com.github.hsseo0501;
+package com.github.hsseo0501.algorithm.basic.datastructure;
 
 import java.util.Arrays;
 import java.util.Scanner;
