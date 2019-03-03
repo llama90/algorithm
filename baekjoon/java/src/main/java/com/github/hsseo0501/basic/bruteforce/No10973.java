@@ -9,4 +9,7 @@ package com.github.hsseo0501.basic.bruteforce;
  */
 
 public class No10973 {
+    public static void main(String[] args) {
+
+    }
 }
