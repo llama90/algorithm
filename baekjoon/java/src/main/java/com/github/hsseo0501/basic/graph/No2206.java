@@ -1,11 +1,10 @@
-package com.github.hsseo0501.basics.graph;
+package com.github.hsseo0501.basic.graph;
 
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
 public class No2206 {
-
 
     static int ASCII_OFFSET = 48;
 

@@ -1,4 +1,4 @@
-package com.github.hsseo0501.basics.mathematics;
+package com.github.hsseo0501.basic.mathematics;
 
 import java.util.Scanner;
 

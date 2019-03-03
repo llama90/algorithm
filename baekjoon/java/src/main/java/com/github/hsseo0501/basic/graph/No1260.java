@@ -1,4 +1,4 @@
-package com.github.hsseo0501.basics.graph;
+package com.github.hsseo0501.basic.graph;
 
 import java.util.Collections;
 import java.util.LinkedList;

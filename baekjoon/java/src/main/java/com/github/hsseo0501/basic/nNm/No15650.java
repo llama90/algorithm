@@ -1,4 +1,4 @@
-package com.github.hsseo0501.basics.nNm;
+package com.github.hsseo0501.basic.nNm;
 
 import java.util.HashSet;
 import java.util.PriorityQueue;

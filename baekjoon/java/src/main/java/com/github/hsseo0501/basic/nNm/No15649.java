@@ -1,13 +1,13 @@
-package com.github.hsseo0501.basics.nNm;
+package com.github.hsseo0501.basic.nNm;
 
 import java.util.Scanner;
 
-public class No15651 {
+public class No15649 {
 
     static int N;
     static int M;
     static int[] arr;
-    static StringBuilder ans = new StringBuilder();
+
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         N = in.nextInt();
@@ -18,10 +18,7 @@ public class No15651 {
             arr[i] = i + 1;
         }
 
-//        long start = System.currentTimeMillis();
         permutation(arr, 0, N, M);
-        System.out.println(ans.toString());
-//        System.out.println(System.currentTimeMillis() - start);
     }
 
     static void permutation(int[] arr, int depth, int n, int k) {
@@ -30,10 +27,29 @@ public class No15651 {
             return;
         }
 
-        for (int i = 0; i < n; i++) {
-            arr[depth] = i + 1;
+        for (int i = depth; i < n; i++) {
+            rotateRight(arr, depth, i);
             permutation(arr, depth + 1, n, k);
+            rotateLeft(arr, depth, i);
         }
+    }
+
+    static void rotateRight(int[] arr, int start, int end) {
+        int last = arr[end];
+        for (int i = end; i > start; i--) {
+            arr[i] = arr[i - 1];
+        }
+
+        arr[start] = last;
+    }
+
+    static void rotateLeft(int[] arr, int start, int end) {
+        int first = arr[start];
+        for (int i = start; i < end; i++) {
+            arr[i] = arr[i + 1];
+        }
+
+        arr[end] = first;
     }
 
     static void printPermutation(int[] arr, int k) {
@@ -41,7 +57,6 @@ public class No15651 {
         for (int i = 0; i < k; i++) {
             sb.append(arr[i] + " ");
         }
-        sb.append("\n");
-        ans.append(sb);
+        System.out.println(sb.toString());
     }
 }

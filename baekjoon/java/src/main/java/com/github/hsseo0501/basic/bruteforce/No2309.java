@@ -1,4 +1,4 @@
-package com.github.hsseo0501.basics.bruteforce;
+package com.github.hsseo0501.basic.bruteforce;
 
 import java.util.Collections;
 import java.util.LinkedList;

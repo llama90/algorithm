@@ -1,14 +1,13 @@
-package com.github.hsseo0501.basics.nNm;
+package com.github.hsseo0501.basic.nNm;
 
 import java.util.Scanner;
 
-public class No15652 {
+public class No15651 {
 
     static int N;
     static int M;
     static int[] arr;
     static StringBuilder ans = new StringBuilder();
-
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         N = in.nextInt();
@@ -37,23 +36,12 @@ public class No15652 {
         }
     }
 
-    static boolean isAscending(int[] arr, int n) {
-        for (int i = 0; i < n - 1; i++) {
-            if (arr[i] > arr[i + 1]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     static void printPermutation(int[] arr, int k) {
-        if (isAscending(arr, k)) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < k; i++) {
-                sb.append(arr[i] + " ");
-            }
-            sb.append("\n");
-            ans.append(sb);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < k; i++) {
+            sb.append(arr[i] + " ");
         }
+        sb.append("\n");
+        ans.append(sb);
     }
 }

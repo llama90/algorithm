@@ -1,36 +1,20 @@
-package com.github.hsseo0501.basics.mathematics;
+package com.github.hsseo0501.basic.mathematics;
 
 import java.util.LinkedList;
 import java.util.Scanner;
 
-public class No9613 {
+public class No2609 {
 
-    static int testCase;
-    static int N;
+    static int A, B;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        testCase = in.nextInt();
+        A = in.nextInt();
+        B = in.nextInt();
 
-        for (int t = 0; t < testCase; t++) {
-            N = in.nextInt();
-
-            int[] numbers = new int[N];
-            long sum = 0;
-            for (int i = 0; i < N; i++) {
-                numbers[i] = in.nextInt();
-            }
-
-            for (int i = 0; i < N; i++) {
-                for (int j = i + 1; j < N; j++) {
-                    sum += greatestCommonDivisor(numbers[i], numbers[j]);
-                }
-            }
-
-            System.out.println(sum);
-        }
+        System.out.println(greatestCommonDivisor(A, B));
+        System.out.println(findLeastCommonMultiple(A, B));
     }
-
 
     static int greatestCommonDivisor(int A, int B) {
         LinkedList<Integer> aliquots = findAliquot(A, B, false);
@@ -39,6 +23,27 @@ public class No9613 {
             greatestCommonDivisor *= aliquots.get(i);
         }
         return greatestCommonDivisor;
+    }
+
+    static int findLeastCommonMultiple(int A, int B) {
+        LinkedList<Integer> aliquots = findAliquot(A, B, true);
+        int leastCommonMultiple;
+        if (aliquots.size() == 0) {
+            leastCommonMultiple = A * B;
+        } else {
+            int index = 0;
+            int max = aliquots.get(index);
+            while (true) {
+                index++;
+                if (max % A == 0 && max % B == 0) {
+                    leastCommonMultiple = max;
+                    break;
+                }
+                max *= aliquots.get(index);
+            }
+        }
+
+        return leastCommonMultiple;
     }
 
     static LinkedList<Integer> findAliquot(int A, int B, boolean forLeastCommonMultiple) {
@@ -70,5 +75,4 @@ public class No9613 {
 
         return aliquots;
     }
-
 }
