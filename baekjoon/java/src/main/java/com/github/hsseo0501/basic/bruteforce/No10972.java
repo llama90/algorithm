@@ -6,78 +6,52 @@ public class No10972 {
 
     static int N;
     static int[] arr;
-    static String currPermutation;
-
-    static boolean foundPermutation = false;
-    static boolean printingNextPermutation = false;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         N = in.nextInt();
-        in.nextLine();
-        currPermutation = in.nextLine();
 
         arr = new int[N];
         for (int i = 0; i < N; i++) {
-            arr[i] = i + 1;
+            arr[i] = in.nextInt();
         }
 
-        permutation(arr, 0, N, N);
-
-        if(!printingNextPermutation) {
-            System.out.println("-1");
-        }
-
-    }
-
-    static void permutation(int[] arr, int depth, int n, int k) {
-        if (!printingNextPermutation) {
-            if (depth == k) {
-                printPermutation(arr, k);
-                return;
+        if (nextPermutation(arr)) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < N; i++) {
+                sb.append(arr[i] + " ");
             }
-
-            for (int i = depth; i < n; i++) {
-                rotateRight(arr, depth, i);
-                permutation(arr, depth + 1, n, k);
-                rotateLeft(arr, depth, i);
-            }
+            System.out.println(sb);
+        } else {
+            System.out.println(-1);
         }
     }
 
-    static void rotateRight(int[] arr, int start, int end) {
-        int last = arr[end];
-        for (int i = end; i > start; i--) {
-            arr[i] = arr[i - 1];
-        }
+    static boolean nextPermutation(int[] array) {
+        // Find non-increasing suffix
+        int i = array.length - 1;
+        while (i > 0 && array[i - 1] >= array[i])
+            i--;
+        if (i <= 0)
+            return false;
 
-        arr[start] = last;
+        // Find successor to pivot
+        int j = array.length - 1;
+        while (array[j] <= array[i - 1])
+            j--;
+        int temp = array[i - 1];
+        array[i - 1] = array[j];
+        array[j] = temp;
+
+        // Reverse suffix
+        j = array.length - 1;
+        while (i < j) {
+            temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+            i++;
+            j--;
+        }
+        return true;
     }
-
-    static void rotateLeft(int[] arr, int start, int end) {
-        int first = arr[start];
-        for (int i = start; i < end; i++) {
-            arr[i] = arr[i + 1];
-        }
-
-        arr[end] = first;
-    }
-
-    static void printPermutation(int[] arr, int k) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < k; i++) {
-            sb.append(arr[i] + " ");
-        }
-
-        if (foundPermutation) {
-            System.out.println(sb.toString());
-            printingNextPermutation = true;
-        }
-
-        if (sb.toString().contains(currPermutation)) {
-            foundPermutation = true;
-        }
-
-    }
-
 }
