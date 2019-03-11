@@ -1,66 +1,61 @@
 package com.github.hsseo0501.algorithm.basic.datastructure;
 
-import java.util.LinkedList;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Stack;
 
 public class No1406 {
 
     static String line;
     static int numCommand;
-    static int cursor;
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        line = scanner.nextLine();
-        numCommand = scanner.nextInt();
-        scanner.nextLine();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        line = br.readLine();
+        numCommand = Integer.parseInt(br.readLine());
 
-        cursor = line.length();
+        Stack<Character> leftStack = new Stack<Character>();
+        Stack<Character> rightStack = new Stack<Character>();
 
-        LinkedList<Character> list = new LinkedList<Character>();
         for (int i = 0; i < line.length(); i++) {
-            list.add(line.charAt(i));
+            leftStack.push(line.charAt(i));
         }
 
         for (int i = 0; i < numCommand; i++) {
-            String command = scanner.nextLine();
+            String command = br.readLine();
             Character operator = command.charAt(0);
 
             switch (operator) {
                 case 'L':
-                    if (cursor != 0) {
-                        cursor--;
+                    if (!leftStack.isEmpty()) {
+                        rightStack.push(leftStack.pop());
                     }
                     break;
                 case 'D':
-                    cursor += 1;
-                    if (list.size() < cursor) {
-                        cursor = list.size();
+                    if (!rightStack.isEmpty()) {
+                        leftStack.push(rightStack.pop());
                     }
                     break;
                 case 'B':
-                    if (cursor != 0) {
-                        list.remove(cursor - 1);
-                        cursor--;
-                        if (cursor < 0) {
-                            cursor = 0;
-                        }
+                    if (!leftStack.isEmpty()) {
+                        leftStack.pop();
                     }
                     break;
                 case 'P':
-                    list.add(cursor, command.charAt(2));
-                    cursor++;
-                    if (list.size() < cursor) {
-                        cursor = list.size();
-                    }
+                    leftStack.push(command.charAt(2));
                     break;
             }
 
         }
 
+        while (!leftStack.empty()) {
+            rightStack.push(leftStack.pop());
+        }
+
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < list.size(); i++) {
-            sb.append(list.get(i));
+        while (!rightStack.empty()) {
+            sb.append(rightStack.pop());
         }
         System.out.println(sb);
     }
