@@ -10,14 +10,17 @@ public class No2146 {
     static int[] dy = {1, -1, 0, 0};
 
     static int N;
-    static int map[][];
+    static int[][] map;
     static Queue<Point> queue = new LinkedList();
     static int number = 0;
+    static int[][] cntMap;
+    static int minCost = Integer.MAX_VALUE;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         N = scanner.nextInt();
         map = new int[N][N];
+        cntMap = new int[N][N];
 
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
@@ -31,7 +34,48 @@ public class No2146 {
         }
 
         executeNumbering();
-        System.out.println();
+        traverse();
+        System.out.println(minCost);
+    }
+
+    static void initQueue() {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (map[i][j] != 0) {
+                    queue.add(new Point(i, j));
+                }
+            }
+        }
+    }
+
+    static void traverse() {
+        initQueue();
+
+        while (!queue.isEmpty()) {
+            Point p = queue.poll();
+            int x = p.getX();
+            int y = p.getY();
+
+            for (int i = 0; i < 4; i++) {
+                int dX = x + dx[i];
+                int dY = y + dy[i];
+
+                if (dX >= N || dY >= N || dX < 0 || dY < 0) {
+                    continue;
+                }
+
+                if (map[dX][dY] == 0) {
+                    map[dX][dY] = map[x][y];
+                    cntMap[dX][dY] = cntMap[x][y] + 1;
+                    queue.add(new Point(dX, dY));
+                } else if (map[dX][dY] != map[x][y]) {
+                    int cost = cntMap[dX][dY] + cntMap[x][y];
+                    if(minCost > cost) {
+                        minCost = cost;
+                    }
+                }
+            }
+        }
     }
 
     static void executeNumbering() {
@@ -43,20 +87,9 @@ public class No2146 {
 
                 if (map[i][j] == -1) {
                     numberingBfs(new Point(i, j));
-                    printMap();
                 }
             }
         }
-    }
-
-    static void printMap() {
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                System.out.print(map[i][j] + " ");
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 
     static void numberingBfs(Point point) {
