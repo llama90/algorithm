@@ -1,4 +1,4 @@
-package com.github.hsseo0501.basic.graph;
+package com.github.hsseo0501.algorithm.basic.graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
