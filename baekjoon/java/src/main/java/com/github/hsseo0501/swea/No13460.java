@@ -16,8 +16,6 @@ public class No13460 {
 
     static Queue<Point> redQueue = new LinkedList<Point>();
     static Queue<Point> blueQueue = new LinkedList<Point>();
-    static int redCount = 0;
-    static int blueCount = 0;
 
     static int N, M;
     static char[][] map;
@@ -48,67 +46,96 @@ public class No13460 {
             }
         }
 
-        bfs();
+        System.out.println(bfs());
     }
 
-    static void bfs() {
+    static int bfs() {
 
         while (!redQueue.isEmpty()) {
             Point r = redQueue.poll();
-            int x = r.x;
-            int y = r.y;
-            int count = r.count;
+            Point b = blueQueue.poll();
 
-
-            System.out.println(x + "," + y + " : " + count + " " + r.dx + "," + r.dy);
             if (r.count >= 10) {
-                System.out.println(-1);
-                break;
+                return -1;
             }
 
-            if (map[x][y] == hole) {
-                redCount = count;
-                System.out.println(redCount);
-                return;
+            if (map[r.x][r.y] == hole) {
+                if (b != null) {
+                    if (r.dx == b.dx && r.dy == b.dy) {
+                        return -1;
+                    } else {
+                        return r.count;
+                    }
+                } else {
+                    return r.count;
+                }
             }
 
-            for (int i = 0; i < 4; i++) {
+            if (r != null) {
+                traverse(r, redQueue, blue);
+            }
 
-                if (dx[i] == r.dx && dy[i] == r.dy) {
-                    continue;
+            if (b != null) {
+                traverse(b, blueQueue, red);
+            }
+        }
+
+        return -1;
+    }
+
+    static void traverse(Point p, Queue<Point> queue, char other) {
+        int x = p.x;
+        int y = p.y;
+        int count = p.count;
+
+        for (int i = 0; i < 4; i++) {
+
+            if (dx[i] == p.dx && dy[i] == p.dy) {
+                continue;
+            }
+
+            int dX = x;
+            int dY = y;
+            while (true) {
+                dX += dx[i];
+                dY += dy[i];
+
+                if (dX < 0 || dY < 0 || dX >= N || dY >= M) {
+                    break;
                 }
 
-                int dX = x;
-                int dY = y;
-                while (true) {
-                    dX += dx[i];
-                    dY += dy[i];
+                if (map[dX][dY] == hole) {
+                    queue.add(new Point(dX, dY, count + 1, -dx[i], -dy[i]));
+                    change(x, y);
+                    break;
+                }
 
-                    if (dX < 0 || dY < 0 || dX >= N || dY >= M) {
+                if (map[dX][dY] == block || map[dX][dY] == other) {
+                    dX += -dx[i];
+                    dY += -dy[i];
+
+                    if (p.x == dX && p.y == dY) {
                         break;
                     }
 
-                    if (map[dX][dY] == hole) {
-                        redQueue.add(new Point(dX, dY, count + 1, -dx[i], -dy[i]));
-                        break;
-                    }
-
-                    if (map[dX][dY] == block || map[dX][dY] == blue) {
-                        dX += -dx[i];
-                        dY += -dy[i];
-
-                        if (r.x == dX && r.y == dY) {
-                            break;
-                        }
-
-                        System.out.println("add: " + dX + "," + dY + " : " + (count + 1) + " " + -r.dx + "," + -r.dy);
-                        redQueue.add(new Point(dX, dY, count + 1, -dx[i], -dy[i]));
-                        break;
-                    }
+                    queue.add(new Point(dX, dY, count + 1, -dx[i], -dy[i]));
+                    change(x, y, dX, dY);
+                    break;
                 }
             }
         }
     }
+
+    static void change(int x, int y, int dX, int dY) {
+        char temp = map[x][y];
+        map[x][y] = map[dX][dY];
+        map[dX][dY] = temp;
+    }
+
+    static void change(int x, int y) {
+        map[x][y] = '.';
+    }
+
 
     static class Point {
         int x, y;
