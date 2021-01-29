@@ -8,25 +8,24 @@ public class No0003 {
     private final int numberOfAscii = 128;
 
     public int lengthOfLongestSubstring(String s) {
-        int length = s.length();
-
-        boolean[][] duplicationMap = new boolean[s.length()][numberOfAscii];
-        int[] substringCount = new int[s.length()];
         int longestSubstringCount = 0;
 
+        int length = s.length();
         for (int i = 0; i < length; i++) {
+            boolean[] duplicationCheck = new boolean[numberOfAscii];
+            int subStringCount = 0;
             for (int j = s.length() - 1 - i; j >= 0; j--) {
                 int characterIndex = s.charAt(j);
-                if (duplicationMap[i][characterIndex] == false) {
-                    duplicationMap[i][characterIndex] = true;
-                    substringCount[i]++;
+                if (duplicationCheck[characterIndex] == false) {
+                    duplicationCheck[characterIndex] = true;
+                    subStringCount++;
                 } else {
                     break;
                 }
             }
 
-            if (substringCount[i] > longestSubstringCount) {
-                longestSubstringCount = substringCount[i];
+            if (subStringCount > longestSubstringCount) {
+                longestSubstringCount = subStringCount;
             }
         }
         return longestSubstringCount;
