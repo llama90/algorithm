@@ -9,86 +9,42 @@ public class No0394 {
 
         Stack<String> stack = new Stack<>();
         for (int i = 0; i < s.length(); i++) {
-            String character1 = Character.toString(s.charAt(i));
-            boolean isNumber1 = character1.matches("[+-]?\\d*(\\.\\d+)?");
-            if (isNumber1) {
-                StringBuilder number = new StringBuilder();
-                for (; i < s.length(); i++) {
-                    String subNumber = Character.toString(s.charAt(i));
-                    number.append(subNumber);
-                    if(s.charAt(i + 1) == '[') {
-                        stack.push(number.toString());
-                        i++;
-                        break;
-                    }
-                }
-                int rightSquareBracket = 0;
-                int leftSquareBracket = 0;
-                stack.push(Character.toString(s.charAt(i++)));  // add leftSquareBracket;
-                leftSquareBracket++;
+            String s1 = String.valueOf(s.charAt(i));
 
-
-                while (leftSquareBracket != rightSquareBracket) {
-                    if (s.charAt(i) == '[') {
-                        leftSquareBracket++;
-                    } else if (s.charAt(i) == ']') {
-                        rightSquareBracket++;
-                    }
-                    String character2 = Character.toString(s.charAt(i));
-                    boolean isNumber2 = character2.matches("[+-]?\\d*(\\.\\d+)?");
-                    if(isNumber2) {
-                        StringBuilder number2 = new StringBuilder();
-                        for (; i < s.length(); i++) {
-                            String subNumber = Character.toString(s.charAt(i));
-                            number2.append(subNumber);
-                            if(s.charAt(i + 1) == '[') {
-                                stack.push(number2.toString());
-                                i++;
-                                break;
-                            }
-                        }
-                    } else {
-                        stack.push(character2);
-                        i++;
-                    }
-
-                    if (leftSquareBracket == rightSquareBracket) {
-                        i--;
-                    }
-                }
-
-                rightSquareBracket = 0;
-                leftSquareBracket = 0;
-                StringBuilder subString = new StringBuilder();
-                StringBuilder mulString = new StringBuilder();
-                while (!stack.isEmpty()) {
-                    String pop = stack.pop();
-                    if (pop.equals("[") || pop.equals("]")) {
-                        if (pop.equals('[')) {
-                            rightSquareBracket++;
-                        } else {
-                            leftSquareBracket++;
-                        }
-                        continue;
-                    }
-
-                    boolean isNumber2 = pop.matches("[+-]?\\d*(\\.\\d+)?");
-                    if (isNumber2) {
-                        int length = Integer.parseInt(pop);
-                        for (int j = 0; j < length; j++) {
-                            mulString.append(subString);
-                        }
-                        subString = mulString;
-                        mulString = new StringBuilder();
-                    } else {
-                        subString.insert(0, pop);
-                    }
-                }
-                answer.append(subString);
+            if (!s1.equals("]")) {
+                stack.push(s1);
             } else {
-                answer.append(character1);
+                StringBuilder string = new StringBuilder();
+                String s2 = stack.pop();
+                while (!s2.equals("[")) {
+                    string.insert(0, s2);
+                    s2 = stack.pop();
+                }
+
+                StringBuilder number = new StringBuilder();
+                while (!stack.isEmpty() && stack.peek().matches("\\d")) {
+                    number.insert(0, stack.pop());
+                }
+
+                int k = Integer.parseInt(String.valueOf(number));
+                stack.push(repeat(string, k));
             }
         }
+
+        while (!stack.isEmpty()) {
+            answer.insert(0, stack.pop());
+        }
+
         return answer.toString();
     }
+
+    private String repeat(StringBuilder s, int n) {
+        StringBuilder sb = new StringBuilder();
+        while (n > 0) {
+            sb.append(s);
+            n--;
+        }
+        return new String(sb);
+    }
+
 }
