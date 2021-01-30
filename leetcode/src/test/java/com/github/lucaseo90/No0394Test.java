@@ -49,12 +49,27 @@ public class No0394Test {
 
     /**
      * All the integers in s are in the range [1, 300].
+     * e.g., 100[leetcode]
      */
 
     @Test
     public void testErrorOccurredExample01() {
-        Assert.assertEquals("llllllllll", no0394.decodeString("10[l]"));
+        Assert.assertEquals(
+                "lmmmmmmmmmmm" +
+                        "lmmmmmmmmmmm" +
+                        "lmmmmmmmmmmm" +
+                        "lmmmmmmmmmmm" +
+                        "lmmmmmmmmmmm" +
+                        "lmmmmmmmmmmm" +
+                        "lmmmmmmmmmmm" +
+                        "lmmmmmmmmmmm" +
+                        "lmmmmmmmmmmm" +
+                        "lmmmmmmmmmmm", no0394.decodeString("10[l11[m]]"));
     }
 
+    @Test
+    public void testErrorOccurredExample02() {
+        Assert.assertEquals("zzzyypqjkjkefjkjkefjkjkefjkjkefyypqjkjkefjkjkefjkjkefjkjkefef", no0394.decodeString("3[z]2[2[y]pq4[2[jk]e1[f]]]ef"));
+    }
 
 }
