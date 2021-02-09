@@ -13,7 +13,6 @@ public class No0045 {
         int finishIndex = nums.length - 1;
 
         Point startPoint = new Point(startIndex, startIndex, nums[startIndex]);
-        visited[startIndex] = true;
         queue.add(startPoint);
 
         while (!queue.isEmpty()) {
@@ -21,9 +20,11 @@ public class No0045 {
             int currIndex = curr.getIndex();
             int currNumberOfJump = curr.getNumberOfJump();
             int jumpRange = curr.getJumpRange();
+            visited[currIndex] = true;
 
-            if (currIndex == finishIndex && answer > currNumberOfJump) {
+            if (currIndex == finishIndex) {
                 answer = currNumberOfJump;
+                break;
             }
 
             for (int i = 1; i <= jumpRange; i++) {
