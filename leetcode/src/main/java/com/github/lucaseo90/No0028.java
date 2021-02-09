@@ -17,6 +17,9 @@ public class No0028 {
 
                 int firstIndex = i;
                 boolean isContained = true;
+                if (haystack.length() - firstIndex < needle.length()) {
+                    break;
+                }
                 for (int j = 0; j < needle.length(); j++) {
                     if (i + j >= haystack.length() || haystack.charAt(i + j) != needle.charAt(j)) {
                         isContained = false;
