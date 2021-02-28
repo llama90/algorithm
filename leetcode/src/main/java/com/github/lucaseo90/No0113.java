@@ -16,8 +16,8 @@ public class No0113 {
 
     public void traverse(TreeNode node, int prevSum, int targetSum, List<Integer> path) {
         if (node.left == null && node.right == null) {
-            if (node.value + prevSum == targetSum) {
-                path.add(node.value);
+            if (node.val + prevSum == targetSum) {
+                path.add(node.val);
                 List<Integer> list = new ArrayList<>(path);
                 paths.add(list);
                 path.remove(path.size() - 1);
@@ -25,8 +25,8 @@ public class No0113 {
             return;
         }
 
-        path.add(node.value);
-        int currentSum = prevSum + node.value;
+        path.add(node.val);
+        int currentSum = prevSum + node.val;
         if (node.left != null) {
             traverse(node.left, currentSum, targetSum, path);
         }

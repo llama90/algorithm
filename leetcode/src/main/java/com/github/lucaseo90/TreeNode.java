@@ -1,7 +1,7 @@
 package com.github.lucaseo90;
 
 public class TreeNode {
-    public int value;
+    public int val;
     public TreeNode left;
     public TreeNode right;
 
@@ -9,17 +9,17 @@ public class TreeNode {
     }
 
     public TreeNode(int x) {
-        value = x;
+        val = x;
     }
 
-    public TreeNode(int value, TreeNode left, TreeNode right) {
-        this.value = value;
+    public TreeNode(int val, TreeNode left, TreeNode right) {
+        this.val = val;
         this.left = left;
         this.right = right;
     }
 
     @Override
     public String toString() {
-        return value + " " + left + " " + right;
+        return val + " " + left + " " + right;
     }
 }

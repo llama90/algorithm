@@ -3,7 +3,7 @@ package com.github.lucaseo90;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class No297Test {
+public class No0297Test {
 
     private No0297 no0297 = new No0297();
 

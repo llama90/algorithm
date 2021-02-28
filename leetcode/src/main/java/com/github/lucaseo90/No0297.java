@@ -18,7 +18,7 @@ public class No0297 {
             return;
         }
 
-        serializedTree.append(node.value).append(",");
+        serializedTree.append(node.val).append(",");
         buildString(node.left);
         buildString(node.right);
     }

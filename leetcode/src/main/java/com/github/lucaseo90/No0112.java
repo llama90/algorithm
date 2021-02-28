@@ -13,13 +13,13 @@ public class No0112 {
 
     public void traverse(TreeNode node, int prevSum, int targetSum) {
         if (node.left == null && node.right == null) {
-            if (node.value + prevSum == targetSum) {
+            if (node.val + prevSum == targetSum) {
                 hasPathSum = true;
             }
             return;
         }
 
-        int currentSum = prevSum + node.value;
+        int currentSum = prevSum + node.val;
         if (!hasPathSum) {
             if (node.left != null) {
                 traverse(node.left, currentSum, targetSum);
