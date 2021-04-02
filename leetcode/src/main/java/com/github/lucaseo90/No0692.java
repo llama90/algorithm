@@ -1,6 +1,7 @@
 package com.github.lucaseo90;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class No0692 {
 
@@ -37,6 +38,39 @@ public class No0692 {
         for (int i = 0; i < k; i++) {
             topKFrequentStrings.add(list.get(i).getKey());
         }
+        return topKFrequentStrings;
+    }
+
+    public List<String> topKFrequentStream(String[] words, int k) {
+        List<String> topKFrequentStrings = new ArrayList<>();
+
+        HashMap<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < words.length; i++) {
+            String string = words[i];
+            if (!map.containsKey(words[i])) {
+                map.put(string, 1);
+            } else {
+                map.put(string, map.get(string) + 1);
+            }
+        }
+
+        Map<String, Integer> sortedMap = map.entrySet().stream()
+                .sorted(Collections
+                        .reverseOrder(
+                                Map.Entry.<String, Integer>comparingByValue())
+                        .thenComparing(Map.Entry.comparingByKey()))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
+                        (e1, e2) -> e1, LinkedHashMap::new));
+
+        int i = 0;
+        for (Map.Entry entry : sortedMap.entrySet()) {
+            if (i == k) {
+                break;
+            }
+            topKFrequentStrings.add(entry.getKey().toString());
+            i++;
+        }
+
         return topKFrequentStrings;
     }
 }
