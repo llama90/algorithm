@@ -8,7 +8,7 @@ public class No0704 {
         int mid;
 
         while (low <= high) {
-            mid = (low + high) / 2;
+            mid = low + (high - low) / 2;
 
             if (nums[mid] == target) {
                 return mid;
