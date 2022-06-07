@@ -1,8 +1,17 @@
-package com.github.lucaseo90;
+package com.github.lucaseo90.ds.day09.stackNqueue;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class No0020 {
+
+    private Map<Character, Character> bracketPair = new HashMap<Character, Character>() {{
+        put('(', ')');
+        put('{', '}');
+        put('[', ']');
+    }};
+
     public boolean isValid(String s) {
         boolean isValid = true;
         Stack<Character> stack = new Stack<>();
@@ -11,12 +20,8 @@ public class No0020 {
             if (element == '{' || element == '(' || element == '[') {
                 stack.push(s.charAt(i));
             } else { // '}', ')', ']'
-                if(!stack.isEmpty()) {
-                    if (element == '}' && stack.peek() == '{') {
-                        stack.pop();
-                    } else if (element == ')' && stack.peek() == '(') {
-                        stack.pop();
-                    } else if (element == ']' && stack.peek() == '[') {
+                if (!stack.isEmpty()) {
+                    if (bracketPair.get(stack.peek()) == element) {
                         stack.pop();
                     } else {
                         isValid = false;
@@ -29,7 +34,7 @@ public class No0020 {
             }
         }
 
-        if(!stack.isEmpty()) {
+        if (!stack.isEmpty()) {
             isValid = false;
         }
 
