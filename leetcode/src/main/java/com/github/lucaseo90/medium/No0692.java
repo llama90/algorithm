@@ -1,6 +1,14 @@
-package com.github.lucaseo90;
+package com.github.lucaseo90.medium;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
 public class No0692 {
@@ -72,5 +80,32 @@ public class No0692 {
         }
 
         return topKFrequentStrings;
+    }
+
+    public List<String> topKFrequentPriorityQueue(String[] words, int k) {
+        HashMap<String, Integer> map = new HashMap<>();
+        for (int i = 0; i < words.length; i++) {
+            String string = words[i];
+            if (!map.containsKey(words[i])) {
+                map.put(string, 1);
+            } else {
+                map.put(string, map.get(string) + 1);
+            }
+        }
+
+        PriorityQueue<Map.Entry<String, Integer>> priorityQueue = new PriorityQueue<>(
+                (a, b) -> b.getValue() != a.getValue()
+                        ? b.getValue() - a.getValue()
+                        : a.getKey().compareTo(b.getKey()));
+
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            priorityQueue.offer(entry);
+        }
+
+        List<String> list = new LinkedList<>();
+        for (int i = 0; i <= k - 1; i++)  {
+            list.add(priorityQueue.poll().getKey());
+        }
+        return list;
     }
 }

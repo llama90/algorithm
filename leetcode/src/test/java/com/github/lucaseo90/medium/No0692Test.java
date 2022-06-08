@@ -1,4 +1,4 @@
-package com.github.lucaseo90;
+package com.github.lucaseo90.medium;
 
 import org.junit.Assert;
 import org.junit.Test;
