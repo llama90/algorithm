@@ -1,10 +1,10 @@
-package com.github.lucaseo90.interview.array;
+package com.github.lucaseo90.ds.day01.array;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class No0001_TwoSum {
+public class No0001 {
     public int[] twoSum(int[] nums, int target) {
         HashMap<Integer, Integer> hashMap = new HashMap<>();
 
