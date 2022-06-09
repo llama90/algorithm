@@ -1,4 +1,4 @@
-package com.github.lucaseo90;
+package com.github.lucaseo90.ds.day10.tree;
 
 import com.github.lucaseo90.no0094.TreeNode;
 

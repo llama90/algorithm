@@ -1,4 +1,4 @@
-package com.github.lucaseo90;
+package com.github.lucaseo90.ds.day09.stackNqueue;
 
 import org.junit.Assert;
 import org.junit.Test;

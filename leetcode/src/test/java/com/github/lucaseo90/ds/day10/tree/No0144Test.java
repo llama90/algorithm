@@ -1,5 +1,7 @@
-package com.github.lucaseo90;
+package com.github.lucaseo90.ds.day10.tree;
 
+import com.github.lucaseo90.No0144;
+import com.github.lucaseo90.TreeNode;
 import org.junit.Assert;
 import org.junit.Test;
 
