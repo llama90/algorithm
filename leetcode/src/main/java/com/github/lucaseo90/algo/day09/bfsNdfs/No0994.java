@@ -1,8 +1,7 @@
-package com.github.lucaseo90.medium;
+package com.github.lucaseo90.algo.day09.bfsNdfs;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
 
 public class No0994 {
     private final int[] dx = {1, -1, 0, 0};
@@ -36,7 +35,7 @@ public class No0994 {
                 int dx = x + this.dx[k];
                 int dy = y + this.dy[k];
 
-                if(dx >= 0 && dy >= 0 && dx < m && dy < n) {
+                if (dx >= 0 && dy >= 0 && dx < m && dy < n) {
                     if (!visited[dx][dy] && grid[dx][dy] == 1) {
                         visited[dx][dy] = true;
                         rottedMap[dx][dy] = rottedMap[x][y] + 1;
@@ -49,7 +48,7 @@ public class No0994 {
 
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if(!visited[i][j] && grid[i][j] == 1) {
+                if (!visited[i][j] && grid[i][j] == 1) {
                     day = -1;
                     break;
                 }

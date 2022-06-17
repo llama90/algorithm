@@ -1,4 +1,4 @@
-package com.github.lucaseo90.medium;
+package com.github.lucaseo90.algo.day09.bfsNdfs;
 
 import org.junit.Assert;
 import org.junit.Test;
