@@ -1,4 +1,4 @@
-package com.github.lucaseo90;
+package com.github.lucaseo90.algo.days21.day13;
 
 public class UniquePaths {
     public long uniquePaths(int m, int n) {
